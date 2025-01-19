@@ -1,54 +1,74 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: seerel <seerel@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/24 13:30:55 by esever            #+#    #+#             */
+/*   Updated: 2025/01/19 13:53:26 by seerel           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minitalk.h"
 
 static int	ft_atoi(char *str)
 {
-	int	i;
 	int	sign;
 	int	res;
 
-	i = 0;
 	sign = 1;
+	while (*str == ' ' || (*str >= 9 && *str <= 13))
+		str++;
+	if (*str == '-' || *str == '+')
+	{
+		if (*str == '-')
+			sign *= -1;
+		str++;
+	}
 	res = 0;
-	if (str[i] == '-' || str[i] == '+')
+	while (*str >= '0' && *str <= '9')
 	{
-		if (str[i] == '-')
-		{
-			sign = -1;
-		}
-		i++;
+		res = res * 10 + *str - '0';
+		str++;
 	}
-	while (str[i] = > '0' && str[i] <= '9')
-	{
-		res = res * 10 + str[i] - '48';
-		i++;
-	}
-	return (res * sign);
+	return (sign * res);
 }
 
-static void	cont(int pid, char c)
+static void	send_signal(pid_t id, char *message)
 {
-	int i;
+	int		i;
+	int		j;
+	char	result;
+
 	i = 0;
-
-	while (i < 8)
+	while (message[i] != '\0')
 	{
-		if ((c >> i) & 1)
+		j = 7;
+		while (j >= 0)
 		{
-			kill(pid, SIGUSR1);
+			result = (message[i] >> j) & 1;
+			if (result == 1)
+				kill(id, SIGUSR1);
+			else if (result == 0)
+				kill(id, SIGUSR2);
+			usleep(155);
+			j--;
 		}
-		else
-		{
-			kill(pid, SIGUSR2);
-		}
-		usleep(500);
 		i++;
 	}
 }
-int main(int argc, char *argv)
+
+int	main(int ac, char **av)
 {
-	while(argv[2][i])
+	pid_t	server_id;
+
+	if (ac == 3)
 	{
-		cont(ft_atoi(argv[i]),argv[2][i]);
-		i++;
+		server_id = ft_atoi(av[1]);
+		send_signal(server_id, av[2]);
 	}
+	else
+		write(1, "Gerekli argüman sayısı girilmedi !!", 35);
+	return (0);
 }

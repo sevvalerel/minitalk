@@ -1,37 +1,61 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: seerel <seerel@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/24 14:28:39 by esever            #+#    #+#             */
+/*   Updated: 2025/01/19 13:53:29 by seerel           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minitalk.h"
 
-void read(int sig)
+static void	ft_putpid(pid_t n)
 {
-	int i=0;
-	char c=0;
-	while(i>8)
+	char	c;
+
+	if (n > 9)
 	{
-		if(sig == SIGUSR1)
-		{
-			c |= (1<< i);
-		}
-		else if(sig == SIGUSR1)
-		{
-			c |= (0<< i);
-		}
-		if(i==8)
-		{
-			ft_printf(%c,c);
-			i=0;
-			c=0;
-		}
-		
+		ft_putpid(n / 10);
+		ft_putpid(n % 10);
+	}
+	else
+	{
+		c = 48 + n;
+		write(1, &c, 1);
 	}
 }
 
-int main()
+static void	signal_to_char(int signal)
 {
-	ft_printf("%d\n",getpid());
-	while(42)
+	static char		c;
+	static int		i;
+
+	i++;
+	if (signal == SIGUSR1)
+		c = c | 1;
+	if (i == 8)
 	{
-		signal(SIGUSR1,read);
-		signal(SIGUSR2,read);
+		write (1, &c, 1);
+		i = 0;
+		c = 0;
+	}
+	c = c << 1;
+}
+
+int	main(void)
+{
+	pid_t	server_id;
+
+	server_id = getpid();
+	ft_putpid(server_id);
+	signal(SIGUSR1, signal_to_char);
+	signal(SIGUSR2, signal_to_char);
+	while (1)
+	{
 		pause();
 	}
+	return (0);
 }
-

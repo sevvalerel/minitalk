@@ -1,27 +1,18 @@
-NAME_SERVER = server
-NAME_CLIENT = client
-CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CC      = cc
+CFLAGS  = -Wall -Wextra -Werror
 
-SRC_SERVER = server.c
-SRC_CLIENT = client.c
+all: server client
 
-OBJ_SERVER = $(SRC_SERVER:.c=.o)
-OBJ_CLIENT = $(SRC_CLIENT:.c=.o)
+server: server.c minitalk.h
+	$(CC) $(CFLAGS) server.c -o server
 
-all: $(NAME_SERVER) $(NAME_CLIENT)
-
-$(NAME_SERVER): $(OBJ_SERVER)
-	$(CC) $(CFLAGS) -o $(NAME_SERVER) $(OBJ_SERVER)
-
-$(NAME_CLIENT): $(OBJ_CLIENT)
-	$(CC) $(CFLAGS) -o $(NAME_CLIENT) $(OBJ_CLIENT)
+client: client.c minitalk.h
+	$(CC) $(CFLAGS) client.c -o client
 
 clean:
-	rm -f $(OBJ_SERVER) $(OBJ_CLIENT)
+	rm -f server client
 
 fclean: clean
-	rm -f $(NAME_SERVER) $(NAME_CLIENT)
 
 re: fclean all
 
