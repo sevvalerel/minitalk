@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: seerel <seerel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/24 14:28:39 by esever            #+#    #+#             */
-/*   Updated: 2025/01/19 13:53:29 by seerel           ###   ########.fr       */
+/*   Created: 2025/01/21 13:39:49 by seerel            #+#    #+#             */
+/*   Updated: 2025/01/21 17:33:58 by seerel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-static void	ft_putpid(pid_t n)
+static void	ft_putpid(int n)
 {
 	char	c;
 
@@ -47,7 +47,7 @@ static void	signal_to_char(int signal)
 
 int	main(void)
 {
-	pid_t	server_id;
+	int	server_id;
 
 	server_id = getpid();
 	ft_putpid(server_id);

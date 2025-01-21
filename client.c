@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: seerel <seerel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/24 13:30:55 by esever            #+#    #+#             */
-/*   Updated: 2025/01/19 13:53:26 by seerel           ###   ########.fr       */
+/*   Created: 2025/01/21 13:40:01 by seerel            #+#    #+#             */
+/*   Updated: 2025/01/21 17:34:26 by seerel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	ft_atoi(char *str)
 	return (sign * res);
 }
 
-static void	send_signal(pid_t id, char *message)
+static void	send_signal(int id, char *message)
 {
 	int		i;
 	int		j;
@@ -52,7 +52,7 @@ static void	send_signal(pid_t id, char *message)
 				kill(id, SIGUSR1);
 			else if (result == 0)
 				kill(id, SIGUSR2);
-			usleep(155);
+			usleep(80);
 			j--;
 		}
 		i++;
@@ -61,7 +61,7 @@ static void	send_signal(pid_t id, char *message)
 
 int	main(int ac, char **av)
 {
-	pid_t	server_id;
+	int	server_id;
 
 	if (ac == 3)
 	{
@@ -69,6 +69,6 @@ int	main(int ac, char **av)
 		send_signal(server_id, av[2]);
 	}
 	else
-		write(1, "Gerekli argüman sayısı girilmedi !!", 35);
+		write(1, "Required number of arguments not entered!", 42);
 	return (0);
 }
