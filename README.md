@@ -1,4 +1,3 @@
-Minitalk Projesi
 Minitalk, iki ayrı program olan client ve server arasında sinyaller (SIGUSR1 ve SIGUSR2) kullanarak mesaj iletimi yapan bir projedir. Proje, 42 okulunun işlem yönetimi ve sinyal işlemleri konusundaki temel anlayışı geliştirmek amacıyla tasarlanmıştır.
 
 Server, çalıştırıldığında kendi işlem kimliğini (PID) ekrana yazdırır ve client tarafından gönderilecek mesajları bekler. Client ise, kullanıcıdan aldığı mesajı sunucuya iletmek için belirtilen sunucu PID’sine sinyaller gönderir.
